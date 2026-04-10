@@ -1,3 +1,4 @@
+import { PlanType } from '@prisma/client';
 import prisma from '../config/db.js';
 
 // Dashboard metrics
@@ -175,9 +176,11 @@ export const changeUserPlan = async (
   planType: string,
   adminId: string
 ) => {
+  const plan = planType as PlanType;
+
   const user = await prisma.user.update({
     where: { id: userId },
-    data: { planType },
+    data: { planType: plan },
   });
 
   await prisma.auditLog.create({
@@ -186,7 +189,7 @@ export const changeUserPlan = async (
       action: 'PLAN_CHANGED',
       entityType: 'User',
       entityId: userId,
-      newValue: { planType },
+      newValue: { planType: plan },
     },
   });
 

@@ -128,7 +128,7 @@ export const apiKeyAuth = async (
       name: keyRecord.name,
     };
 
-    next();
+    return next();
   } catch (error) {
     console.error('API Key Auth Error:', error);
     return res.status(500).json({

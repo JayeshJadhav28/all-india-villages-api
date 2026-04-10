@@ -70,7 +70,7 @@ export const jwtAuth = async (
     // Attach user to request
     req.user = user;
 
-    next();
+    return next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       return res.status(401).json({
@@ -116,6 +116,6 @@ export const requireRole = (...allowedRoles: string[]) => {
       });
     }
 
-    next();
+    return next();
   };
 };

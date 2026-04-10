@@ -7,12 +7,12 @@ export const getDashboard = async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const summary = await b2bService.getDashboardSummary(userId);
 
-    res.json({
+    return res.json({
       success: true,
       data: summary,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -28,13 +28,13 @@ export const getApiKeys = async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const keys = await b2bService.getUserApiKeys(userId);
 
-    res.json({
+    return res.json({
       success: true,
       count: keys.length,
       data: keys,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -62,7 +62,7 @@ export const createApiKey = async (req: Request, res: Response) => {
 
     const result = await b2bService.createApiKey(userId, name);
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       data: result,
       warning: 'Store this secret securely. It will not be shown again.',
@@ -78,7 +78,7 @@ export const createApiKey = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -96,12 +96,12 @@ export const revokeApiKey = async (req: Request, res: Response) => {
 
     await b2bService.revokeApiKey(userId, id);
 
-    res.json({
+    return res.json({
       success: true,
       message: 'API key revoked successfully',
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -119,12 +119,12 @@ export const getUsageStats = async (req: Request, res: Response) => {
 
     const stats = await b2bService.getUsageStats(userId, days);
 
-    res.json({
+    return res.json({
       success: true,
       data: stats,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -136,7 +136,7 @@ export const getUsageStats = async (req: Request, res: Response) => {
 
 // Get profile
 export const getProfile = async (req: Request, res: Response) => {
-  res.json({
+  return res.json({
     success: true,
     data: req.user,
   });
@@ -154,12 +154,12 @@ export const updateProfile = async (req: Request, res: Response) => {
       gstNumber,
     });
 
-    res.json({
+    return res.json({
       success: true,
       data: user,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',

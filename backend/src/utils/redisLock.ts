@@ -15,8 +15,8 @@ export async function withRedisLock<T>(
 ): Promise<{ ok: true; result: T } | { ok: false; reason: 'LOCKED' }> {
   const lockValue = `${process.pid}:${Date.now()}`;
 
-  // SET key value NX EX ttl
-  const acquired = await redis.set(key, lockValue, 'NX', 'EX', ttlSeconds);
+  // Use the raw Redis command to keep the lock acquisition atomic and type-safe.
+  const acquired = await redis.call('SET', key, lockValue, 'NX', 'EX', String(ttlSeconds));
   if (acquired !== 'OK') return { ok: false, reason: 'LOCKED' };
 
   try {

@@ -5,12 +5,12 @@ import * as geoService from '../services/geo.service.js';
 export const healthCheck = async (req: Request, res: Response) => {
   try {
     const health = await geoService.getHealth();
-    res.json({
+    return res.json({
       success: true,
       data: health,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'HEALTH_CHECK_FAILED',
@@ -25,13 +25,13 @@ export const getAllStates = async (req: Request, res: Response) => {
   try {
     const states = await geoService.getAllStates();
     
-    res.json({
+    return res.json({
       success: true,
       count: states.length,
       data: states,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -47,13 +47,13 @@ export const getDistrictsByState = async (req: Request, res: Response) => {
     const { stateId } = req.params;
     const districts = await geoService.getDistrictsByState(stateId);
     
-    res.json({
+    return res.json({
       success: true,
       count: districts.length,
       data: districts,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -69,13 +69,13 @@ export const getSubDistrictsByDistrict = async (req: Request, res: Response) => 
     const { districtId } = req.params;
     const subdistricts = await geoService.getSubDistrictsByDistrict(districtId);
     
-    res.json({
+    return res.json({
       success: true,
       count: subdistricts.length,
       data: subdistricts,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -94,14 +94,14 @@ export const getVillagesBySubDistrict = async (req: Request, res: Response) => {
     
     const result = await geoService.getVillagesBySubDistrict(subdistrictId, page, limit);
     
-    res.json({
+    return res.json({
       success: true,
       count: result.data.length,
       data: result.data,
       pagination: result.pagination,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -127,12 +127,12 @@ export const getVillageById = async (req: Request, res: Response) => {
       });
     }
     
-    res.json({
+    return res.json({
       success: true,
       data: village,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -168,14 +168,14 @@ export const searchVillages = async (req: Request, res: Response) => {
     
     const result = await geoService.searchVillages(query, filters, page, limit);
     
-    res.json({
+    return res.json({
       success: true,
       count: result.data.length,
       data: result.data,
       pagination: result.pagination,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',
@@ -204,13 +204,13 @@ export const autocompleteVillages = async (req: Request, res: Response) => {
     
     const results = await geoService.autocompleteVillages(query, limit);
     
-    res.json({
+    return res.json({
       success: true,
       count: results.length,
       data: results,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: {
         code: 'INTERNAL_ERROR',

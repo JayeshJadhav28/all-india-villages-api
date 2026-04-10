@@ -20,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
       password,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Registration successful. Awaiting admin approval.',
       data: { id: user.id, email: user.email, status: user.status },
@@ -33,7 +33,7 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'INTERNAL_ERROR', message: 'Registration failed' },
     });
@@ -88,12 +88,12 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       data: { token: result.token, user: result.user },
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: { code: 'INTERNAL_ERROR', message: 'Login failed' },
     });
@@ -101,5 +101,5 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const me = async (req: Request, res: Response) => {
-  res.json({ success: true, data: req.user });
+  return res.json({ success: true, data: req.user });
 };
