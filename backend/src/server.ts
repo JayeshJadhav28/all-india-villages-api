@@ -4,7 +4,7 @@ import { connectDatabase, disconnectDatabase } from './config/db.js';
 import { connectRedis, disconnectRedis } from './config/redis.js';
 import { startUsageSchedulers } from './jobs/usageScheduler.js';
 
-const PORT = config.server.port;
+const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
