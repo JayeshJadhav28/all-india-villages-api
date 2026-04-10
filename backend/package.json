@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "description": "Backend API for All India Villages SaaS platform",
-    "type": "commonjs",
+    "type": "module",
     "main": "dist/server.js",
     "scripts": {
         "dev": "tsx watch src/server.ts",
