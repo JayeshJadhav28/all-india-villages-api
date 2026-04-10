@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '../../lib/api';
 import { Link } from 'react-router-dom';
-import { Users, Activity, Database, Clock, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { Users, Activity, Clock, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 
 function StatBox({ label, value, icon: Icon, accent }: { label: string; value: string | number; icon: any; accent?: string }) {
   return (
@@ -15,12 +15,7 @@ function StatBox({ label, value, icon: Icon, accent }: { label: string; value: s
   );
 }
 
-function statusColor(s: string) {
-  return s === 'ACTIVE' ? '#4ade80' : s === 'PENDING' ? '#fbbf24' : s === 'SUSPENDED' ? '#f87171' : '#6b7280';
-}
-function statusBg(s: string) {
-  return s === 'ACTIVE' ? 'rgba(74,222,128,0.08)' : s === 'PENDING' ? 'rgba(251,191,36,0.08)' : s === 'SUSPENDED' ? 'rgba(248,113,113,0.08)' : 'rgba(107,114,128,0.08)';
-}
+
 
 export const AdminOverview: React.FC = () => {
   const qc = useQueryClient();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { b2bApi } from '../../lib/api';
-import { Plus, Copy, Eye, EyeOff, Trash2, RefreshCw, AlertCircle, CheckCircle, X } from 'lucide-react';
+import { Plus, Copy, Eye, EyeOff, Trash2, AlertCircle, CheckCircle, X } from 'lucide-react';
 
 interface ApiKey {
   id: string;

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { b2bApi } from '../../lib/api';
-import { KeyRound, Activity, TrendingUp, AlertCircle, ArrowRight } from 'lucide-react';
+import { KeyRound, Activity, AlertCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '../../lib/api';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, ChevronRight, CheckCircle, XCircle, PauseCircle, ArrowUpRight } from 'lucide-react';
+import { Search, CheckCircle, XCircle, PauseCircle, ArrowUpRight } from 'lucide-react';
 
 type Status = 'ALL' | 'PENDING' | 'ACTIVE' | 'SUSPENDED' | 'REJECTED';
 type Plan   = 'ALL' | 'FREE' | 'PREMIUM' | 'PRO' | 'UNLIMITED';
