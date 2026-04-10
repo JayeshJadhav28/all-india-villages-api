@@ -37,3 +37,6 @@ data-import/reports/
 
 # Raw datasets are huge -> keep out of git (use Git LFS if you want them versioned)
 data-import/raw/
+
+# Docs (ignore all documentation)
+docs/
