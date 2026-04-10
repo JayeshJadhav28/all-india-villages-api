@@ -2,7 +2,10 @@ import axios from 'axios';
 
 // Setup guide sets VITE_API_BASE_URL=http://localhost:3000/api
 // Fallback also includes /api so there is never a double-append
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api').replace(/\/+$/, '');
+const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api').replace(/\/+$/, '');
+const API_BASE_URL = /\/api$/i.test(RAW_API_BASE_URL)
+  ? RAW_API_BASE_URL
+  : `${RAW_API_BASE_URL}/api`;
 
 // Single shared axios instance — import this everywhere, delete config/api.ts
 export const apiClient = axios.create({
