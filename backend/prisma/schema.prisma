@@ -1,0 +1,263 @@
+// ============================================
+// Prisma Schema for AllIndia Villages API
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+
+enum PlanType {
+  FREE
+  PREMIUM
+  PRO
+  UNLIMITED
+}
+
+enum ApiKeyStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+// ============================================
+// GEOGRAPHY HIERARCHY
+// ============================================
+
+model Country {
+  id        String   @id @default(uuid())
+  name      String
+  code      String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  states State[]
+
+  @@map("countries")
+}
+
+model State {
+  id        String   @id @default(uuid())
+  countryId String
+  code      String   @unique
+  name      String
+  slug      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  country   Country    @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  districts District[]
+  userStateAccess UserStateAccess[]
+
+  @@index([countryId])
+  @@index([name])
+  @@map("states")
+}
+
+model District {
+  id        String   @id @default(uuid())
+  stateId   String
+  code      String
+  name      String
+  slug      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  state        State         @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  subDistricts SubDistrict[]
+
+  @@unique([stateId, code])
+  @@index([stateId])
+  @@index([name])
+  @@map("districts")
+}
+
+model SubDistrict {
+  id         String   @id @default(uuid())
+  districtId String
+  code       String
+  name       String
+  slug       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  district District  @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  villages Village[]
+
+  @@unique([districtId, code])
+  @@index([districtId])
+  @@index([name])
+  @@map("sub_districts")
+}
+
+model Village {
+  id             String   @id @default(uuid())
+  subDistrictId  String
+  code           String?  @unique
+  name           String
+  slug           String
+  fullAddress    String   @db.Text
+  searchableText String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  subDistrict SubDistrict @relation(fields: [subDistrictId], references: [id], onDelete: Cascade)
+
+  @@index([subDistrictId])
+  @@index([name])
+  @@map("villages")
+}
+
+// ============================================
+// USERS & AUTHENTICATION
+// ============================================
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  businessName String
+  phone        String
+  gstNumber    String?
+  passwordHash String
+  role         UserRole   @default(CLIENT)
+  status       UserStatus @default(PENDING)
+  planType     PlanType   @default(FREE)
+  approvedAt   DateTime?
+  approvedBy   String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  apiKeys         ApiKey[]
+  userStateAccess UserStateAccess[]
+  apiLogs         ApiLog[]
+  usageDaily      UsageDaily[]
+
+  @@index([email])
+  @@index([status])
+  @@index([planType])
+  @@map("users")
+}
+
+model ApiKey {
+  id         String       @id @default(uuid())
+  userId     String
+  name       String
+  key        String       @unique
+  secretHash String
+  status     ApiKeyStatus @default(ACTIVE)
+  expiresAt  DateTime?
+  lastUsedAt DateTime?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiLogs    ApiLog[]
+  usageDaily UsageDaily[]
+
+  @@index([userId])
+  @@index([key])
+  @@index([status])
+  @@map("api_keys")
+}
+
+model UserStateAccess {
+  id        String   @id @default(uuid())
+  userId    String
+  stateId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  state State @relation(fields: [stateId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, stateId])
+  @@index([userId])
+  @@index([stateId])
+  @@map("user_state_access")
+}
+
+// ============================================
+// LOGGING & ANALYTICS
+// ============================================
+
+model ApiLog {
+  id              String   @id @default(uuid())
+  userId          String
+  apiKeyId        String
+  endpoint        String
+  method          String
+  statusCode      Int
+  responseTimeMs  Int
+  ipAddressMasked String?
+  userAgent       String?  @db.Text
+  requestId       String
+  createdAt       DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey ApiKey @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([apiKeyId, createdAt])
+  @@index([endpoint])
+  @@index([statusCode])
+  @@index([createdAt])
+  @@map("api_logs")
+}
+
+model UsageDaily {
+  id                String   @id @default(uuid())
+  userId            String
+  apiKeyId          String
+  date              DateTime @db.Date
+  totalRequests     Int      @default(0)
+  successRequests   Int      @default(0)
+  failedRequests    Int      @default(0)
+  avgResponseTimeMs Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  apiKey ApiKey @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, apiKeyId, date])
+  @@index([userId, date])
+  @@index([apiKeyId, date])
+  @@map("usage_daily")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorUserId String?
+  action     String
+  entityType String
+  entityId   String
+  oldValue   Json?
+  newValue   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([actorUserId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
