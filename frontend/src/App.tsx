@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react';
 import type { ReactNode } from 'react';
 import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
+import { Landing } from './pages/public/Landing';
 import { useAuthStore } from './store/authStore';
 
 const AdminDashboard = lazy(() =>
@@ -35,16 +36,24 @@ function RequireActiveClient({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function LoadingSpinner() {
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin" />
+        <p className="text-gray-600 font-medium">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Suspense fallback={
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0f1117', color: '#475569', fontSize: 14 }}>
-            Loading…
-          </div>
-        }>
+        <Suspense fallback={<LoadingSpinner />}>
           <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
@@ -70,8 +79,7 @@ export default function App() {
               }
             />
 
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
