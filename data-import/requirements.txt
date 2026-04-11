@@ -1,0 +1,20 @@
+# Data Processing
+pandas==2.2.0
+numpy==1.26.3
+
+# Excel support
+openpyxl==3.1.2
+xlrd==2.0.1
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.25
+
+# Environment
+python-dotenv==1.0.1
+
+# Progress bars
+tqdm==4.66.1
+
+# Validation
+jsonschema==4.21.1
