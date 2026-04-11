@@ -6,10 +6,15 @@
 [![Live API](https://img.shields.io/badge/API-Live-28a745?style=for-the-badge&logo=railway)](https://all-india-villages-api-production.up.railway.app)
 [![Frontend](https://img.shields.io/badge/Dashboard-Live-000000?style=for-the-badge&logo=vercel)](https://all-india-villages-api.vercel.app)
 [![Dataset](https://img.shields.io/badge/Dataset-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive)](https://drive.google.com/drive/folders/1B0jJA2BPozpOgt0rkkgOhW7XFsao8Sxi?usp=sharing)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=nodedotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?style=for-the-badge&logo=postgresql)
+![Redis](https://img.shields.io/badge/Redis-Upstash-DC382D?style=for-the-badge&logo=redis)
 
 **A production-grade SaaS platform providing standardized India geography data — Country → State → District → Sub-District → Village — via authenticated REST APIs.**
 
-[**Live Demo**](https://all-india-villages-api.vercel.app) · [**API Docs**](#-api-reference) · [**Dataset**](https://drive.google.com/drive/folders/1B0jJA2BPozpOgt0rkkgOhW7XFsao8Sxi?usp=sharing) · [**Quick Start**](#-quick-start)
+[**🌐Live Demo**](https://all-india-villages-api.vercel.app) · [**🚀API Docs**](#-api-reference) · [**📦Dataset**](https://drive.google.com/drive/folders/1B0jJA2BPozpOgt0rkkgOhW7XFsao8Sxi?usp=sharing) · [**⚡Quick Start**](#-quick-start)
 
 </div>
 
@@ -117,23 +122,23 @@ The platform is built for **B2B use cases** — fintech, agritech, logistics, go
 ┌─────────────────────────────────────────────────────────────┐
 │                        Clients                              │
 │   B2B Apps (API Key)   Admin UI (JWT)   B2B Portal (JWT)    │
-└──────────┬──────────────────┬────────────────┬─────────────┘
+└──────────┬──────────────────┬────────────────┬──────────────┘
            │                  │                │
            ▼                  ▼                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              Express + TypeScript Backend                    │
+│              Express + TypeScript Backend                   │
 │                                                             │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────┐  │
-│  │ Geo Routes  │  │  Auth Routes │  │  Admin/B2B Routes │  │
-│  │ /api/v1/*   │  │  /api/auth/* │  │  /api/admin|b2b/* │  │
-│  └──────┬──────┘  └──────┬───────┘  └────────┬──────────┘  │
+│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────┐   │
+│  │ Geo Routes  │  │  Auth Routes │  │  Admin/B2B Routes │   │
+│  │ /api/v1/*   │  │  /api/auth/* │  │  /api/admin|b2b/* │   │
+│  └──────┬──────┘  └──────┬───────┘  └─────────┬─────────┘   │
 │         │                │                    │             │
 │  ┌──────▼────────────────▼────────────────────▼──────────┐  │
-│  │              Middleware Layer                          │  │
-│  │   API Key Auth │ JWT Auth │ Rate Limit │ Logger        │  │
-│  └──────┬─────────────────────────────────────────────┬──┘  │
-│         │                                             │      │
-│  ┌──────▼──────┐                           ┌─────────▼───┐  │
+│  │              Middleware Layer                         │  │
+│  │   API Key Auth │ JWT Auth │ Rate Limit │ Logger       │  │
+│  └──────┬─────────────────────────────────────────┬──────┘  │
+│         │                                         │         │
+│  ┌──────▼──────┐                           ┌──────▼──────┐  │
 │  │   Redis     │                           │  PostgreSQL │  │
 │  │  Cache +    │                           │  (Prisma)   │  │
 │  │ Rate Limit  │                           │             │  │
