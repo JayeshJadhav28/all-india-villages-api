@@ -33,7 +33,7 @@ const STYLES = `
     position: relative;
   }
 
-  /* India gradient background - darker for admin */
+  /* India gradient background - darker for admin - LOWER z-index */
   .admin-dash::before {
     content: '';
     position: fixed;
@@ -46,7 +46,7 @@ const STYLES = `
     z-index: 0;
   }
 
-  /* Dot grid */
+  /* Dot grid - LOWER z-index */
   .admin-dash::after {
     content: '';
     position: fixed;
@@ -57,15 +57,10 @@ const STYLES = `
     z-index: 0;
   }
 
-  .admin-dash > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Sidebar */
+  /* Sidebar - HIGHER z-index */
   .admin-sidebar {
     width: 250px;
-    background: rgba(10, 13, 20, 0.8);
+    background: rgba(10, 13, 20, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     border-right: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
@@ -74,8 +69,9 @@ const STYLES = `
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
     transition: transform 0.3s ease;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
   }
 
   .admin-sidebar.mobile-hidden {
@@ -214,19 +210,21 @@ const STYLES = `
     color: #f87171;
   }
 
-  /* Main Content */
+  /* Main Content - HIGHER z-index */
   .admin-main {
     margin-left: 250px;
     flex: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Top Bar */
+  /* Top Bar - HIGHER z-index */
   .admin-topbar {
     height: 60px;
-    background: rgba(10, 13, 20, 0.7);
+    background: rgba(10, 13, 20, 0.9);
     backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
@@ -235,7 +233,7 @@ const STYLES = `
     padding: 0 2rem;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 500;
   }
 
   .admin-topbar-left {
@@ -289,6 +287,11 @@ const STYLES = `
     animation: pulse 2s infinite;
   }
 
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
   .admin-icon-btn {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -309,16 +312,18 @@ const STYLES = `
   .admin-content {
     flex: 1;
     padding: 2rem;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Mobile Overlay */
+  /* Mobile Overlay - HIGHER z-index */
   .admin-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
-    z-index: 90;
+    z-index: 999;
   }
 
   .admin-overlay.active {
@@ -409,7 +414,7 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="admin-dash">
       {/* Sidebar */}
-      <aside className={`admin-sidebar ${mobileOpen ? 'mobile-open' : 'mobile-hidden'}`}>
+      <aside className={`admin-sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
         {/* Logo */}
         <a href="/admin" className="admin-logo">
           <div className="admin-logo-icon">
@@ -439,9 +444,7 @@ export const AdminDashboard: React.FC = () => {
 
         {/* User */}
         <div className="admin-user">
-          <div className="admin-user-avatar">
-            {user?.email?.[0]?.toUpperCase() || 'A'}
-          </div>
+          <div className="admin-user-avatar">{user?.email?.[0]?.toUpperCase() || 'A'}</div>
           <div className="admin-user-info">
             <div className="admin-user-name">{user?.email}</div>
             <div className="admin-user-role">ADMIN</div>
@@ -500,10 +503,7 @@ export const AdminDashboard: React.FC = () => {
       </main>
 
       {/* Mobile Overlay */}
-      <div
-        className={`admin-overlay ${mobileOpen ? 'active' : ''}`}
-        onClick={() => setMobileOpen(false)}
-      />
+      <div className={`admin-overlay ${mobileOpen ? 'active' : ''}`} onClick={() => setMobileOpen(false)} />
     </div>
   );
 };

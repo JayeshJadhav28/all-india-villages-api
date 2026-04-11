@@ -34,7 +34,7 @@ const STYLES = `
     position: relative;
   }
 
-  /* India gradient background */
+  /* India gradient background - LOWER z-index */
   .b2b-dash::before {
     content: '';
     position: fixed;
@@ -47,7 +47,7 @@ const STYLES = `
     z-index: 0;
   }
 
-  /* Dot grid */
+  /* Dot grid - LOWER z-index */
   .b2b-dash::after {
     content: '';
     position: fixed;
@@ -58,15 +58,10 @@ const STYLES = `
     z-index: 0;
   }
 
-  .b2b-dash > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Sidebar */
+  /* Sidebar - HIGHER z-index */
   .b2b-sidebar {
     width: 260px;
-    background: rgba(13, 18, 32, 0.7);
+    background: rgba(13, 18, 32, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -75,8 +70,9 @@ const STYLES = `
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100;
+    z-index: 1000;
     transition: transform 0.3s ease;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
   }
 
   .b2b-sidebar.mobile-hidden {
@@ -253,19 +249,21 @@ const STYLES = `
     color: #f87171;
   }
 
-  /* Main Content */
+  /* Main Content - HIGHER z-index than backgrounds */
   .b2b-main {
     margin-left: 260px;
     flex: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Top Bar */
+  /* Top Bar - HIGHER z-index */
   .b2b-topbar {
     height: 64px;
-    background: rgba(13, 18, 32, 0.6);
+    background: rgba(13, 18, 32, 0.8);
     backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -274,7 +272,7 @@ const STYLES = `
     padding: 0 2rem;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 500;
   }
 
   .b2b-topbar-left {
@@ -394,16 +392,18 @@ const STYLES = `
   .b2b-content {
     flex: 1;
     padding: 2rem;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Mobile Overlay */
+  /* Mobile Overlay - HIGHER z-index than sidebar */
   .b2b-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 90;
+    z-index: 999;
   }
 
   .b2b-overlay.active {
@@ -498,7 +498,7 @@ export const B2BDashboard: React.FC = () => {
   return (
     <div className="b2b-dash">
       {/* Sidebar */}
-      <aside className={`b2b-sidebar ${mobileOpen ? 'mobile-open' : 'mobile-hidden'}`}>
+      <aside className={`b2b-sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
         {/* Logo */}
         <a href="/dashboard" className="b2b-logo">
           <img
