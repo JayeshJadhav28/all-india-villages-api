@@ -2,7 +2,12 @@
 
 <div align="center">
 
+<img src="https://all-india-villages-api.vercel.app/icon0.svg" alt="All India Villages API Logo" width="120" />
+
+<br/><br/>
+
 ![All India Villages API](https://img.shields.io/badge/India%20Geography-API-FF9933?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMiAxNWwtNS01IDEuNDEtMS40MUwxMCAxNC4xN2w3LjU5LTcuNTlMMTkgOGwtOSA5eiIvPjwvc3ZnPg==)
+
 [![Live API](https://img.shields.io/badge/API-Live-28a745?style=for-the-badge&logo=railway)](https://all-india-villages-api-production.up.railway.app)
 [![Frontend](https://img.shields.io/badge/Dashboard-Live-000000?style=for-the-badge&logo=vercel)](https://all-india-villages-api.vercel.app)
 [![Dataset](https://img.shields.io/badge/Dataset-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive)](https://drive.google.com/drive/folders/1B0jJA2BPozpOgt0rkkgOhW7XFsao8Sxi?usp=sharing)
